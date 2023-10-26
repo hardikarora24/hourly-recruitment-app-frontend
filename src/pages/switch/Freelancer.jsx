@@ -1,7 +1,9 @@
+import Home from '../freelancer/Home'
+
 export default function Freelancer() {
   return (
     <div>
-      Freelancer{' '}
+      <Home />
       <button
         onClick={() => {
           logout()

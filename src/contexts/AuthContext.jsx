@@ -37,11 +37,17 @@ export const AuthProvider = ({ children }) => {
     }
   }
 
-  const register = async ({ name, username, password, type }) => {
+  const register = async ({
+    first_name,
+    last_name,
+    username,
+    password,
+    type,
+  }) => {
     try {
       const { data } = await axios({
         method: 'POST',
-        data: { name, username, password, type },
+        data: { first_name, last_name, username, password, type },
         url: `${import.meta.env.VITE_SERVER_URL}/register`,
         withCredentials: true,
       })

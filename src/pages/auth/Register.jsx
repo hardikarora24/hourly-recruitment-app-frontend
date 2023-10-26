@@ -102,14 +102,16 @@ const Register = () => {
     e.preventDefault()
 
     if (
-      !isValidName(form.name) ||
+      !isValidName(form.first_name) ||
+      !isValidName(form.last_name) ||
       !isValidUsername(form.username) ||
       !isValidPassword(form.password, form.confirmPassword)
     )
       return
 
     const data = await register({
-      name: form.name,
+      first_name: form.first_name,
+      last_name: form.last_name,
       username: form.username,
       password: form.password,
       type: form.type,

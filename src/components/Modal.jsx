@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom'
 export default function Modal({
   showModal,
   setShowModal,
-  allowClose,
+  allowClose = true,
   children,
 }) {
   const backgroundRef = useRef()
