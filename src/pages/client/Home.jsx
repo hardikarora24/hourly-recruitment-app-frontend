@@ -1,10 +1,10 @@
 import React from 'react'
-import ClientProjects from '../../components/client/ClientProjects'
+import Projects from '../../components/client/Projects'
 
 const Home = () => {
   return (
     <>
-      <ClientProjects />
+      <Projects />
     </>
   )
 }

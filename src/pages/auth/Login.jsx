@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
+import { USER_TYPES } from '../../utils/Constants'
 
 const Login = () => {
   const navigate = useNavigate()
@@ -21,15 +22,16 @@ const Login = () => {
       password: form.password,
     })
 
+    setForm({ username: '', password: '' })
+
     if (!data.success) {
       setError('Entered email and/or password are incorrect!')
-      setForm({ username: '', password: '' })
     } else {
-      if (data.user.type === 'Admin') {
+      if (data.user.type === USER_TYPES.admin) {
         navigate('/a')
-      } else if (data.user.type === 'Client') {
+      } else if (data.user.type === USER_TYPES.client) {
         navigate('/c')
-      } else if (data.user.type === 'Freelancer') {
+      } else if (data.user.type === USER_TYPES.freelancer) {
         navigate('/f')
       }
     }

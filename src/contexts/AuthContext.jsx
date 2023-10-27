@@ -27,8 +27,8 @@ export const AuthProvider = ({ children }) => {
       })
 
       if (data.success) {
-        setUser({ ...data.user._doc })
-        return { success: true, user: data.user._doc }
+        setUser({ ...data.user })
+        return { success: true, user: data.user }
       } else {
         return { success: false, message: data.message }
       }
@@ -51,8 +51,6 @@ export const AuthProvider = ({ children }) => {
         url: `${import.meta.env.VITE_SERVER_URL}/register`,
         withCredentials: true,
       })
-
-      console.log(data)
 
       if (data.success) {
         setUser({ ...data.user })

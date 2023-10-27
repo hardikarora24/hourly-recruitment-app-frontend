@@ -5,8 +5,6 @@ import { useUser } from '../contexts/UserContext'
 const PublicRoute = () => {
   const { user } = useUser()
 
-  console.log(user)
-
   return user ? (
     user.type === 'Admin' ? (
       <Navigate to='/a' />
