@@ -71,7 +71,7 @@ const Projects = () => {
       {loading ? (
         <Loading />
       ) : (
-        <>
+        <div className='projects'>
           <div className='left'>
             <span>{error}</span>
             <div className='heading'>Posted Proects</div>
@@ -91,7 +91,7 @@ const Projects = () => {
               Add Project
             </button>
           </div>
-          <div className='midddle'>
+          <div className='middle'>
             <div className='heading'>Current Projects</div>
             <div>
               {projects
@@ -137,7 +137,7 @@ const Projects = () => {
               </div>
             </div>
           </div>
-        </>
+        </div>
       )}
     </>
   )

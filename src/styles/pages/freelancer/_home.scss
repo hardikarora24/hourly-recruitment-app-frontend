@@ -1,0 +1,17 @@
+.home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+
+  .earnings {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .error {
+    color: #ff0000;
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+}

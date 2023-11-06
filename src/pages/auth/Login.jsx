@@ -38,18 +38,31 @@ const Login = () => {
   }
 
   return (
-    <div>
+    <div className='login'>
+      <h1>Hourly Recruitment</h1>
       <form>
-        <div>
-          <label htmlFor='username'>Username: </label>
-          <input type='text' name='username' onChange={handleChange} />
+        <div className='group'>
+          <label htmlFor='username'>Username</label>
+          <input
+            type='text'
+            name='username'
+            id='username'
+            onChange={handleChange}
+          />
         </div>
-        <div>
-          <label htmlFor='password'>Password: </label>
-          <input type='password' name='password' onChange={handleChange} />
+        <div className='group'>
+          <label htmlFor='password'>Password</label>
+          <input
+            type='password'
+            name='password'
+            id='password'
+            onChange={handleChange}
+          />
         </div>
         <button onClick={handleSubmit}>Login</button>
-        Don't have an account? <Link to='/register'>Register</Link> now
+        <div className='prompt'>
+          Don't have an account? <Link to='/register'>Register</Link>
+        </div>
       </form>
     </div>
   )

@@ -1,18 +1,11 @@
 import Home from '../freelancer/Home'
-import { useAuth } from '../../contexts/AuthContext'
+import Navbar from '../../components/Navbar'
 
 export default function Freelancer() {
-  const { logout } = useAuth()
   return (
-    <div>
+    <>
+      <Navbar userRole='Freelancer' />
       <Home />
-      <button
-        onClick={() => {
-          logout()
-        }}
-      >
-        logout
-      </button>
-    </div>
+    </>
   )
 }

@@ -27,11 +27,11 @@ const Home = () => {
   }, [])
 
   return (
-    <>
-      {error}
-      <div>Total Earnings: {earnings}</div>
+    <div className='home'>
+      {error && <div className='error'>{error}</div>}
+      <div className='earnings'>Total Earnings: {earnings}</div>
       <Dashboard />
-    </>
+    </div>
   )
 }
 

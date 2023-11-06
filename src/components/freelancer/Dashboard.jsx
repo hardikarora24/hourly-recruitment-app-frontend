@@ -31,7 +31,6 @@ const Dashboard = () => {
         throw new Error(data.message)
       }
     } catch (e) {
-      console.log(e)
       setError('No projects')
       setLoading(false)
     }
@@ -45,7 +44,7 @@ const Dashboard = () => {
       {loading ? (
         <Loading />
       ) : (
-        <div>
+        <div className='dashboard'>
           <span>{error}</span>
           <div className='projects'>
             <div className='left'>
@@ -181,8 +180,8 @@ const SubmitForm = ({ setShowModal, projectId, clientId }) => {
   }
 
   return (
-    <form>
-      {error}
+    <form className='submit'>
+      {error && <div className='error'>{error}</div>}
       <div className='group'>
         <label htmlFor='sourceCodeUrl'>Source Code URL: </label>
         <input name='sourceCodeUrl' type='url' onChange={handleChange} />
@@ -192,7 +191,7 @@ const SubmitForm = ({ setShowModal, projectId, clientId }) => {
         <input name='demoUrl' type='url' onChange={handleChange} />
       </div>
       <div className='group'>
-        <label htmlFor='hostedUrl'>Hosted Proect URL: </label>
+        <label htmlFor='hostedUrl'>Hosted Project URL: </label>
         <input name='hostedUrl' type='url' onChange={handleChange} />
       </div>
       <button onClick={handleSubmit}>Submit</button>

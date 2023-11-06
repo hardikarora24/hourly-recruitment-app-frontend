@@ -125,43 +125,67 @@ const Register = () => {
   }
 
   return (
-    <div>
+    <div className='register'>
+      <h1>Hourly Recruitment</h1>
       <form>
-        <div>
+        <div className='group'>
           {error.name}
           <label htmlFor='name'>First Name: </label>
-          <input type='text' name='first_name' onChange={handleChange} />
-          <label htmlFor='name'> Last Name: </label>
-          <input type='text' name='last_name' onChange={handleChange} />
-        </div>
-        <div>
-          {error.username}
-          <label htmlFor='username'>Username: </label>
-          <input type='text' name='username' onChange={handleChange} />
-        </div>
-        <div>
-          {error.password}
-          <label htmlFor='password'>Password: </label>
-          <input type='password' name='password' onChange={handleChange} />
-        </div>
-        <div>
-          {error.confirmPassword}
-          <label htmlFor='confirmPassword'>Confirm Password: </label>
           <input
-            type='password'
-            name='confirmPassword'
+            type='text'
+            name='first_name'
+            id='first_name'
+            onChange={handleChange}
+          />
+          <label htmlFor='name'> Last Name: </label>
+          <input
+            type='text'
+            name='last_name'
+            id='last_name'
             onChange={handleChange}
           />
         </div>
-        <div>
-          <label htmlFor='type'>Type: </label>
-          <select name='type' onChange={handleChange}>
+        <div className='group'>
+          {error.username}
+          <label htmlFor='username'>Username</label>
+          <input
+            type='text'
+            name='username'
+            id='username'
+            onChange={handleChange}
+          />
+        </div>
+        <div className='group'>
+          {error.password}
+          <label htmlFor='password'>Password</label>
+          <input
+            type='password'
+            id='password'
+            name='password'
+            onChange={handleChange}
+          />
+        </div>
+        <div className='group'>
+          {error.confirmPassword}
+          <label htmlFor='confirmPassword'>Confirm Password</label>
+          <input
+            type='password'
+            name='confirmPassword'
+            id='confirmPassword'
+            onChange={handleChange}
+          />
+        </div>
+        <div className='group'>
+          <label htmlFor='type'>Type</label>
+          <select id='type' name='type' onChange={handleChange}>
             <option value='Client'>Client</option>
             <option value='Freelancer'>Freelancer</option>
           </select>
         </div>
         <button onClick={handleSubmit}>Register</button>
-        Already have an account? <Link to='/login'>Login</Link>
+        <div className='prompt'>
+          Already have an account? <Link to='/login'>Login</Link>
+        </div>
       </form>
     </div>
   )

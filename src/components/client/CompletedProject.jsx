@@ -34,11 +34,13 @@ const CompletedProject = ({ project, submission }) => {
 const Submission = ({ submission, setShowModal, project }) => {
   const [error, setError] = useState('')
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (approve) => {
     try {
       const { data } = await axios({
         method: 'POST',
-        url: `${import.meta.env.VITE_SERVER_URL}/client/approve`,
+        url: `${import.meta.env.VITE_SERVER_URL}/client/${
+          approve ? 'approve' : 'reject'
+        }`,
         data: {
           submission: submission,
           projectId: project._id,
@@ -53,9 +55,17 @@ const Submission = ({ submission, setShowModal, project }) => {
       setError('Could not approve project')
     }
   }
+
+  const handleReject = () => {
+    handleSubmit(false)
+  }
+  const handleAccept = () => {
+    handleSubmit(true)
+  }
+
   return (
-    <>
-      {error}
+    <div className='completed-project'>
+      {error && <div className='error'>{error}</div>}
       <div className='group'>
         <div className='label'>Source Code: </div>
         <div className='url'>{submission.sourceCodeUrl}</div>
@@ -68,11 +78,13 @@ const Submission = ({ submission, setShowModal, project }) => {
         <div className='label'>Hosted Project: </div>
         <div className='url'>{submission.hostedUrl}</div>
       </div>
-
       {project.status === PROJECT_STATUS.completed && (
-        <button onClick={handleSubmit}>Approve</button>
+        <div className='button-container'>
+          <button onClick={handleAccept}>Approve</button>
+          <button onClick={handleReject}>Reject</button>
+        </div>
       )}
-    </>
+    </div>
   )
 }
 
