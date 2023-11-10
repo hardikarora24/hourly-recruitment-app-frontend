@@ -3,8 +3,10 @@ import axios from 'axios'
 import { PROJECT_STATUS } from '../../utils/Constants'
 import { useUser } from '../../contexts/UserContext'
 import DeleteIcon from '../../assets/delete.svg'
+import businessHours from '../../utils/businessHours'
+import Modal from '../Modal'
 
-const Project = ({ project, setShowModal = (b) => {} }) => {
+const Project = ({ project, setShowModal = (b) => {}, bidModal = false }) => {
   const [loading, setLoading] = useState(false)
   const [bids, setBids] = useState([])
 
@@ -56,12 +58,37 @@ const Project = ({ project, setShowModal = (b) => {} }) => {
 
   return (
     <div className='project'>
+      <Modal showModal={bidModal} setShowModal={setShowModal}>
+        <BidForm
+          setShowModal={setShowModal}
+          projectId={project._id}
+          clientId={project.clientId}
+          getBids={getBids}
+        />
+      </Modal>
       <div className='title'>Title: {project.title}</div>
       <div className='description'>Description: {project.description}</div>
       <div className='technologies'>
         Technologies: {project.technologies.join(', ')}
       </div>
-      <div className='duration'>Estimated Duration: {project.duration}</div>
+      {project.status === PROJECT_STATUS.posted ||
+      project.status === PROJECT_STATUS.inProgress ? (
+        <>
+          <div className='duration'>Estimated Duration: {project.duration}</div>
+        </>
+      ) : (
+        <>
+          <div className='rate'>Rate: {project.accepted_bid.hourly_rate}</div>
+          <div className='time'>
+            Time Taken:{' '}
+            {businessHours(
+              new Date(project?.accepted_bid?.accepted_at),
+              new Date(project?.approved_submission?.accepted_at)
+            )}{' '}
+            hrs
+          </div>
+        </>
+      )}
       {project.status === PROJECT_STATUS.posted ? (
         <div className='bids'>
           <div className='b-left'>
@@ -117,6 +144,41 @@ const Project = ({ project, setShowModal = (b) => {} }) => {
         <></>
       )}
     </div>
+  )
+}
+
+const BidForm = ({ projectId, clientId, setShowModal, getBids }) => {
+  const [rate, setRate] = useState()
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    const { data } = await axios({
+      method: 'POST',
+      url: `${import.meta.env.VITE_SERVER_URL}/freelancer/bid`,
+      data: { projectId, clientId, rate },
+      withCredentials: true,
+    })
+
+    if (data.success) {
+      setShowModal(false)
+      getBids()
+    }
+  }
+
+  return (
+    <form>
+      <div className='group'>
+        <label htmlFor='rate'>Rate: </label>
+        <input
+          type='number'
+          onChange={(e) => {
+            setRate(e.target.value)
+          }}
+        />
+      </div>
+      <button onClick={handleSubmit}>Bid</button>
+    </form>
   )
 }
 

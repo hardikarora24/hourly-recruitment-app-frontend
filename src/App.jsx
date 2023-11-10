@@ -8,6 +8,7 @@ import { UserProvider } from './contexts/UserContext'
 import { AuthProvider } from './contexts/AuthContext'
 
 import PublicRoute from './routes/PublicRoute'
+import PrivateRoute from './routes/PrivateRoute'
 import AdminRoute from './routes/AdminRoute'
 import ClientRoute from './routes/ClientRoute'
 import FreelancerRoute from './routes/FreelancerRoute'
@@ -20,6 +21,7 @@ import Login from './pages/auth/Login'
 import Register from './pages/auth/Register'
 
 import './styles/styles.scss'
+import Profile from './pages/Profile'
 
 function App() {
   return (
@@ -32,14 +34,17 @@ function App() {
                 <Route path='/login' element={<Login />} />
                 <Route path='/register' element={<Register />} />
               </Route>
-              <Route path='/a' element={<AdminRoute />}>
-                <Route path='/a' element={<Admin />} />
-              </Route>
-              <Route path='/c' element={<ClientRoute />}>
-                <Route path='/c' element={<Client />} />
-              </Route>
-              <Route path='/f' element={<FreelancerRoute />}>
-                <Route path='/f' element={<Freelancer />} />
+              <Route element={<PrivateRoute />}>
+                <Route path='/profile' element={<Profile />} />
+                <Route path='/a' element={<AdminRoute />}>
+                  <Route path='/a' element={<Admin />} />
+                </Route>
+                <Route path='/c' element={<ClientRoute />}>
+                  <Route path='/c' element={<Client />} />
+                </Route>
+                <Route path='/f' element={<FreelancerRoute />}>
+                  <Route path='/f' element={<Freelancer />} />
+                </Route>
               </Route>
               <Route path='*' element={<Navigate to='/login' />} />
             </Routes>

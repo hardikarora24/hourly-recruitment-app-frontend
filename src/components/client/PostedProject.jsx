@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import axios from 'axios'
 
 import Loading from '../Loading'
 import ProjectDetails from './ProjectDetails'
 import Modal from '../Modal'
 import { PROJECT_STATUS } from '../../utils/Constants'
+import DeleteIcon from '../../assets/delete.svg'
 
-const PostedProject = ({ project }) => {
+const PostedProject = ({ project, getProjects }) => {
   const [bids, setBids] = useState([])
   const [loading, setLoading] = useState(true)
   const [showModal, setShowModal] = useState(false)
@@ -48,6 +49,10 @@ const PostedProject = ({ project }) => {
         },
         withCredentials: true,
       })
+
+      if (response.data.success) {
+        getProjects()
+      }
     } catch (e) {
       console.log('Could not accept')
     }
@@ -58,9 +63,13 @@ const PostedProject = ({ project }) => {
       const response = await axios({
         method: 'POST',
         url: `${import.meta.env.VITE_SERVER_URL}/client/delete`,
-        data: { id },
+        data: { project_id: id },
         withCredentials: true,
       })
+
+      if (response.data.success) {
+        getProjects()
+      }
     } catch (e) {
       console.log('Could not delete')
     }
@@ -73,7 +82,7 @@ const PostedProject = ({ project }) => {
       ) : (
         <>
           <Modal setShowModal={setShowModal} showModal={showModal}>
-            <EditModal />
+            <EditModal p={project} />
           </Modal>
           <div className='posted'>
             <div className='project-details'>
@@ -87,7 +96,13 @@ const PostedProject = ({ project }) => {
             ))}
             {project.status === PROJECT_STATUS.posted && (
               <div className='button-container'>
-                <button onClick={(e) => handleEdit()}>Edit</button>
+                <button
+                  onClick={(e) => {
+                    setShowModal(true)
+                  }}
+                >
+                  Edit
+                </button>
                 <button onClick={() => deleteProject(project._id)}>
                   Delete
                 </button>
@@ -138,15 +153,36 @@ const EditModal = ({ p, setShowModal }) => {
       <form>
         <div>
           <label htmlFor='title'>Title: </label>
-          <input type='text' name='title' onChange={handleChange} />
+          <input
+            type='text'
+            name='title'
+            value={project.title}
+            onChange={handleChange}
+          />
         </div>
         <div>
           <label htmlFor='description'>Description: </label>
-          <input type='text' name='description' onChange={handleChange} />
+          <input
+            type='text'
+            name='description'
+            value={project.description}
+            onChange={handleChange}
+          />
         </div>
-        <div>
-          {form.technologies.map((t) => {
-            return <div>{t}</div>
+        <div className='technologies'>
+          {project.technologies.map((t, idx) => {
+            return (
+              <div key={idx} className='technology'>
+                {t}{' '}
+                <img
+                  onClick={() => {
+                    deleteTechnology(idx)
+                  }}
+                  src={DeleteIcon}
+                  alt='delete'
+                />
+              </div>
+            )
           })}
           <label htmlFor='technologies'>Technologies: </label>
           <input ref={technologyInputRef} type='text' name='technologies' />
@@ -156,7 +192,12 @@ const EditModal = ({ p, setShowModal }) => {
         </div>
         <div>
           <label htmlFor='duration'>Duration: </label>
-          <input type='number' name='duration' onChange={handleChange} />
+          <input
+            type='number'
+            name='duration'
+            value={project.duration}
+            onChange={handleChange}
+          />
         </div>
         <button onClick={handleSubmit}>Save</button>
       </form>

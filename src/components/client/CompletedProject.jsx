@@ -4,7 +4,7 @@ import { PROJECT_STATUS } from '../../utils/Constants'
 import Modal from '../Modal'
 import axios from 'axios'
 
-const CompletedProject = ({ project, submission }) => {
+const CompletedProject = ({ project, submission, getProjects }) => {
   const [showModal, setShowModal] = useState(false)
 
   return (
@@ -15,6 +15,7 @@ const CompletedProject = ({ project, submission }) => {
           project={project}
           clientId={project.clientId}
           submission={submission}
+          getProjects={getProjects}
         />
       </Modal>
       <ProjectDetails project={project} />
@@ -31,7 +32,7 @@ const CompletedProject = ({ project, submission }) => {
   )
 }
 
-const Submission = ({ submission, setShowModal, project }) => {
+const Submission = ({ submission, setShowModal, project, getProjects }) => {
   const [error, setError] = useState('')
 
   const handleSubmit = async (approve) => {
@@ -50,6 +51,7 @@ const Submission = ({ submission, setShowModal, project }) => {
 
       if (data.success) {
         setShowModal(false)
+        getProjects()
       }
     } catch (e) {
       setError('Could not approve project')

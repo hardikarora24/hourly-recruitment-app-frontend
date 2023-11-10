@@ -8,6 +8,8 @@ import PostedProject from './PostedProject'
 import ProjectDetails from './ProjectDetails'
 import CompletedProject from './CompletedProject'
 
+import DeleteIcon from '../../assets/delete.svg'
+
 const Projects = () => {
   const { user } = useUser()
 
@@ -34,7 +36,6 @@ const Projects = () => {
         throw new Error(data.message)
       }
     } catch (e) {
-      setError('No projects')
       setLoading(false)
     }
   }
@@ -66,7 +67,7 @@ const Projects = () => {
   return (
     <>
       <Modal showModal={showModal} setShowModal={setShowModal}>
-        <AddProjectForm setShowModal={setShowModal} />
+        <AddProjectForm setShowModal={setShowModal} getProjects={getProjects} />
       </Modal>
       {loading ? (
         <Loading />
@@ -78,8 +79,14 @@ const Projects = () => {
             <div>
               {projects
                 .filter((p) => p.status === PROJECT_STATUS.posted)
-                .map((p) => {
-                  return <PostedProject project={p} />
+                .map((p, idx) => {
+                  return (
+                    <PostedProject
+                      key={`posted-project-${idx}`}
+                      project={p}
+                      getProjects={getProjects}
+                    />
+                  )
                 })}
             </div>
 
@@ -96,8 +103,13 @@ const Projects = () => {
             <div>
               {projects
                 .filter((p) => p.status === PROJECT_STATUS.inProgress)
-                .map((p) => {
-                  return <ProjectDetails project={p} />
+                .map((p, idx) => {
+                  return (
+                    <ProjectDetails
+                      key={`project-details-${idx}`}
+                      project={p}
+                    />
+                  )
                 })}
             </div>
           </div>
@@ -107,13 +119,15 @@ const Projects = () => {
               <div>
                 {projects
                   .filter((p) => p.status === PROJECT_STATUS.completed)
-                  .map((p) => {
+                  .map((p, idx) => {
                     return (
                       <CompletedProject
+                        key={`completed-project-${idx}`}
                         project={p}
                         submission={submissions.find(
                           (s) => s.projectId === p._id
                         )}
+                        getProjects={getProjects}
                       />
                     )
                   })}
@@ -124,9 +138,10 @@ const Projects = () => {
               <div>
                 {projects
                   .filter((p) => p.status === PROJECT_STATUS.approved)
-                  .map((p) => {
+                  .map((p, idx) => {
                     return (
                       <CompletedProject
+                        key={`completed-project-${idx}`}
                         project={p}
                         submission={submissions.find(
                           (s) => s.projectId === p._id
@@ -143,7 +158,7 @@ const Projects = () => {
   )
 }
 
-const AddProjectForm = ({ setShowModal }) => {
+const AddProjectForm = ({ setShowModal, getProjects }) => {
   const [form, setForm] = useState({
     title: '',
     description: '',
@@ -177,6 +192,7 @@ const AddProjectForm = ({ setShowModal }) => {
 
       if (data.success) {
         setShowModal(false)
+        getProjects()
       }
     } catch (e) {}
   }
@@ -192,9 +208,20 @@ const AddProjectForm = ({ setShowModal }) => {
           <label htmlFor='description'>Description: </label>
           <input type='text' name='description' onChange={handleChange} />
         </div>
-        <div>
-          {form.technologies.map((t) => {
-            return <div>{t}</div>
+        <div className='technologies'>
+          {form.technologies.map((t, idx) => {
+            return (
+              <div className='technology' key={`tech-${idx}`}>
+                {t}{' '}
+                <img
+                  onClick={() => {
+                    deleteTechnology(idx)
+                  }}
+                  src={DeleteIcon}
+                  alt='delete'
+                />
+              </div>
+            )
           })}
           <label htmlFor='technologies'>Technologies: </label>
           <input ref={technologyInputRef} type='text' name='technologies' />

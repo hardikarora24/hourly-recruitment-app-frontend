@@ -7,6 +7,35 @@ form {
   background-color: #f9f9f9;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 
+  .technologies {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+
+    .b-left,
+    .b-right {
+      width: 50%;
+      background-color: #fff;
+      padding: 20px;
+    }
+
+    .technology {
+      font-size: 16px;
+      margin-top: 5px;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-direction: row;
+
+      img {
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
   div {
     display: flex;
     flex-direction: column;

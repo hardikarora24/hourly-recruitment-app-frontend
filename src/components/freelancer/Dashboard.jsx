@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import Loading from '../Loading'
 import Modal from '../Modal'
 import Project from './Project'
@@ -13,8 +13,8 @@ const Dashboard = () => {
 
   const [error, setError] = useState('')
 
-  const [bidModal, setBidModal] = useState(false)
   const [submitModal, setSubmitModal] = useState(false)
+  const [bidModal, setBidModal] = useState(false)
 
   const getProjects = async () => {
     try {
@@ -31,7 +31,6 @@ const Dashboard = () => {
         throw new Error(data.message)
       }
     } catch (e) {
-      setError('No projects')
       setLoading(false)
     }
   }
@@ -51,18 +50,13 @@ const Dashboard = () => {
               <div className='heading'>Projects</div>
               {projects
                 .filter((p) => p.status === PROJECT_STATUS.posted)
-                .map((p) => {
+                .map((p, idx) => {
                   return (
-                    <>
-                      <Modal showModal={bidModal} setShowModal={setBidModal}>
-                        <BidForm
-                          setShowModal={setBidModal}
-                          projectId={p._id}
-                          clientId={p.clientId}
-                        />
-                      </Modal>
-                      <Project project={p} setShowModal={setBidModal} />
-                    </>
+                    <Project
+                      key={`project-${idx}`}
+                      project={p}
+                      setShowModal={setBidModal}
+                    />
                   )
                 })}
             </div>
@@ -74,9 +68,9 @@ const Dashboard = () => {
                     p.freelancerId === user._id &&
                     p.status !== PROJECT_STATUS.approved
                 )
-                .map((p) => {
+                .map((p, idx) => {
                   return (
-                    <>
+                    <Fragment key={`current-project-${idx}`}>
                       <Modal
                         showModal={submitModal}
                         setShowModal={setSubmitModal}
@@ -88,7 +82,7 @@ const Dashboard = () => {
                         />
                       </Modal>
                       <Project project={p} setShowModal={setSubmitModal} />
-                    </>
+                    </Fragment>
                   )
                 })}
             </div>
@@ -100,48 +94,16 @@ const Dashboard = () => {
                     p.freelancerId === user._id &&
                     p.status === PROJECT_STATUS.approved
                 )
-                .map((p) => {
-                  return <Project project={p} />
+                .map((p, idx) => {
+                  return (
+                    <Project key={`approved-projects-${idx}`} project={p} />
+                  )
                 })}
             </div>
           </div>
         </div>
       )}
     </>
-  )
-}
-
-const BidForm = ({ projectId, clientId, setShowModal }) => {
-  const [rate, setRate] = useState()
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-
-    const { data } = await axios({
-      method: 'POST',
-      url: `${import.meta.env.VITE_SERVER_URL}/freelancer/bid`,
-      data: { projectId, clientId, rate },
-      withCredentials: true,
-    })
-
-    if (data.success) {
-      setShowModal(false)
-    }
-  }
-
-  return (
-    <form>
-      <div className='group'>
-        <label htmlFor='rate'>Rate: </label>
-        <input
-          type='number'
-          onChange={(e) => {
-            setRate(e.target.value)
-          }}
-        />
-      </div>
-      <button onClick={handleSubmit}>Bid</button>
-    </form>
   )
 }
 
