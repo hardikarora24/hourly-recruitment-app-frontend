@@ -4,10 +4,5 @@ import Home from '../client/Home'
 
 export default function Client() {
   const { logout } = useAuth()
-  return (
-    <>
-      <Navbar userRole='Client' />
-      <Home />
-    </>
-  )
+  return <Home />
 }

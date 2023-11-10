@@ -1,22 +1,28 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
+import { USER_TYPES } from '../../utils/Constants'
+import DeleteIcon from '../../assets/delete.svg'
+
+const DEFAULT_FORM = {
+  first_name: '',
+  last_name: '',
+  username: '',
+  password: '',
+  confirmPassword: '',
+  type: 'Client',
+  skills: [],
+}
 
 const Register = () => {
-  const [form, setForm] = useState({
-    first_name: '',
-    last_name: '',
-    username: '',
-    password: '',
-    confirmPassword: '',
-    type: 'Client',
-  })
+  const [form, setForm] = useState(DEFAULT_FORM)
   const [error, setError] = useState({
     name: '',
     username: '',
     password: '',
     confirmPassword: '',
   })
+  const skillsInputRef = useRef()
 
   const { register } = useAuth()
 
@@ -95,7 +101,28 @@ const Register = () => {
   }
 
   const handleChange = (e) => {
-    setForm((f) => ({ ...f, [e.target.name]: e.target.value }))
+    if (e.target.name === 'type') {
+      setForm({ ...DEFAULT_FORM, type: e.target.value })
+    } else {
+      setForm((f) => ({ ...f, [e.target.name]: e.target.value }))
+    }
+  }
+
+  const addSkill = (e) => {
+    const value = skillsInputRef.current.value
+    setForm((f) => ({
+      ...f,
+      skills: [...f.skills, value],
+    }))
+
+    skillsInputRef.current.value = ''
+  }
+
+  const deleteSkill = (i) => {
+    setForm((f) => ({
+      ...f,
+      skills: f.skills.filter((s, idx) => idx !== i),
+    }))
   }
 
   const handleSubmit = async (e) => {
@@ -127,7 +154,7 @@ const Register = () => {
   return (
     <div className='register'>
       <h1>Hourly Recruitment</h1>
-      <form>
+      <form className='register-form'>
         <div className='group'>
           {error.name}
           <label htmlFor='name'>First Name: </label>
@@ -175,11 +202,36 @@ const Register = () => {
             onChange={handleChange}
           />
         </div>
+        {form.type === USER_TYPES.freelancer && (
+          <div className='group'>
+            {form.skills.map((s, idx) => {
+              return (
+                <div key={idx} className='skill'>
+                  {s}{' '}
+                  <img
+                    onClick={() => {
+                      deleteSkill(idx)
+                    }}
+                    src={DeleteIcon}
+                    alt='delete'
+                  />
+                </div>
+              )
+            })}
+            <label htmlFor='skills'>Skills: </label>
+            <input ref={skillsInputRef} type='text' name='technologies' />
+            <button onClick={addSkill} type='button'>
+              Add
+            </button>
+          </div>
+        )}
         <div className='group'>
           <label htmlFor='type'>Type</label>
           <select id='type' name='type' onChange={handleChange}>
-            <option value='Client'>Client</option>
-            <option value='Freelancer'>Freelancer</option>
+            <option value={USER_TYPES.client}>{USER_TYPES.client}</option>
+            <option value={USER_TYPES.freelancer}>
+              {USER_TYPES.freelancer}
+            </option>
           </select>
         </div>
         <button onClick={handleSubmit}>Register</button>

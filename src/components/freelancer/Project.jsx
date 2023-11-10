@@ -167,7 +167,7 @@ const BidForm = ({ projectId, clientId, setShowModal, getBids }) => {
   }
 
   return (
-    <form>
+    <form className='add-form'>
       <div className='group'>
         <label htmlFor='rate'>Rate: </label>
         <input

@@ -51,6 +51,9 @@ const ClientProfile = ({ user }) => {
     <Loading />
   ) : (
     <div className='client-profile'>
+      <h2>
+        {user.first_name} {user.last_name}
+      </h2>
       <div className='stats'>
         <div className='stat'>
           Posted Projects:{' '}
@@ -85,7 +88,9 @@ const FreelancerProfile = ({ user }) => {
   const [error, setError] = useState('')
   const [newSkill, setNewSkill] = useState('')
 
-  const handleAddSkill = async () => {
+  const handleAddSkill = async (e) => {
+    e.preventDefault()
+
     if (newSkill.trim() !== '') {
       const { data } = await axios({
         method: 'POST',
@@ -122,21 +127,25 @@ const FreelancerProfile = ({ user }) => {
   useEffect(() => {
     getEarnings()
   }, [])
+
   return loading ? (
     <Loading />
   ) : (
     <div className='freelancer-profile'>
+      <h2>
+        {user.first_name} {user.last_name}
+      </h2>
       <div className='earnings'>
-        <h2>Total Earnings: ${earnings}</h2>
+        <h3>Total Earnings: ${earnings}</h3>
       </div>
       <div className='skills'>
-        <h3>Skills:</h3>
+        <h4>Skills:</h4>
         <ul>
           {skills.map((skill, index) => (
             <li key={index}>{skill}</li>
           ))}
         </ul>
-        <div className='add-skill'>
+        <form className='add-skill'>
           <input
             className='input'
             type='text'
@@ -144,10 +153,15 @@ const FreelancerProfile = ({ user }) => {
             value={newSkill}
             onChange={(e) => setNewSkill(e.target.value)}
           />
-          <button className='btn' onClick={handleAddSkill}>
+          <button
+            className='btn'
+            onClick={(e) => {
+              handleAddSkill(e)
+            }}
+          >
             Add Skill
           </button>
-        </div>
+        </form>
       </div>
     </div>
   )

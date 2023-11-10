@@ -22,6 +22,7 @@ import Register from './pages/auth/Register'
 
 import './styles/styles.scss'
 import Profile from './pages/Profile'
+import FreelancerProfile from './pages/client/FreelancerProfile'
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
                 </Route>
                 <Route path='/c' element={<ClientRoute />}>
                   <Route path='/c' element={<Client />} />
+                  <Route path='/c/freelancer' element={<FreelancerProfile />} />
                 </Route>
                 <Route path='/f' element={<FreelancerRoute />}>
                   <Route path='/f' element={<Freelancer />} />

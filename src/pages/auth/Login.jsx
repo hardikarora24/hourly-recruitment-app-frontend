@@ -40,7 +40,7 @@ const Login = () => {
   return (
     <div className='login'>
       <h1>Hourly Recruitment</h1>
-      <form>
+      <form className='login-form'>
         <div className='group'>
           <label htmlFor='username'>Username</label>
           <input

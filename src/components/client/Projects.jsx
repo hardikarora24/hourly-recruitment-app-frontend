@@ -75,7 +75,7 @@ const Projects = () => {
         <div className='projects'>
           <div className='left'>
             <span>{error}</span>
-            <div className='heading'>Posted Proects</div>
+            <div className='heading'>Posted Projects</div>
             <div>
               {projects
                 .filter((p) => p.status === PROJECT_STATUS.posted)
@@ -199,7 +199,7 @@ const AddProjectForm = ({ setShowModal, getProjects }) => {
 
   return (
     <>
-      <form>
+      <form className='add-form'>
         <div>
           <label htmlFor='title'>Title: </label>
           <input type='text' name='title' onChange={handleChange} />

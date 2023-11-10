@@ -56,6 +56,7 @@ const Dashboard = () => {
                       key={`project-${idx}`}
                       project={p}
                       setShowModal={setBidModal}
+                      bidModal={bidModal}
                     />
                   )
                 })}

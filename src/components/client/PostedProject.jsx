@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react'
+import { Link } from 'react-router-dom'
 import axios from 'axios'
 
 import Loading from '../Loading'
@@ -91,7 +92,12 @@ const PostedProject = ({ project, getProjects }) => {
             {bids.map((b, index) => (
               <div className='bid' key={index}>
                 <span>Rate: {b.hourly_rate}</span>
-                <button onClick={(e) => handleSubmit(b)}>Accept</button>
+                <div className='bid-right'>
+                  <Link to={`/c/freelancer?id=${b.freelancerId}`}>
+                    View Freelancer
+                  </Link>
+                  <button onClick={(e) => handleSubmit(b)}>Accept</button>
+                </div>
               </div>
             ))}
             {project.status === PROJECT_STATUS.posted && (
@@ -148,9 +154,16 @@ const EditModal = ({ p, setShowModal }) => {
     }))
   }
 
+  const deleteTechnology = (i) => {
+    setProject((p) => ({
+      ...p,
+      technologies: p.technologies.filter((t, idx) => idx !== i),
+    }))
+  }
+
   return (
     <>
-      <form>
+      <form className='add-form'>
         <div>
           <label htmlFor='title'>Title: </label>
           <input
