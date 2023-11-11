@@ -35,7 +35,10 @@ const ProjectList = ({ projects, deleteProject = (id) => {} }) => {
           </div>
           {user.type === USER_TYPES.admin &&
             project.status !== PROJECT_STATUS.approved && (
-              <img src={DeleteIcon} onClick={() => deleteProject(project.id)} />
+              <img
+                src={DeleteIcon}
+                onClick={() => deleteProject(project._id)}
+              />
             )}
         </div>
       ))}

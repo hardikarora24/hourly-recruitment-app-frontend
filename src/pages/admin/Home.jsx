@@ -95,7 +95,7 @@ const Home = () => {
 
       if (data.success) {
         setLoading(false)
-        fetchData()
+        setProjects((projects) => projects.filter((p) => p._id !== id))
       }
     } catch (e) {
       setLoading(false)

@@ -34,6 +34,17 @@
         cursor: pointer;
       }
     }
+
+    .project {
+      position: relative;
+      img {
+        position: absolute;
+        top: 0;
+        right: 0;
+        translate: -50% 50%;
+        cursor: pointer;
+      }
+    }
   }
 }
 
