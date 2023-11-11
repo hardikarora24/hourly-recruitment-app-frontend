@@ -5,6 +5,7 @@ import Navbar from '../components/Navbar'
 import Loading from '../components/Loading'
 import { useUser } from '../contexts/UserContext'
 import { PROJECT_STATUS, USER_TYPES } from '../utils/Constants'
+import DeleteIcon from '../assets/delete.svg'
 
 const Profile = () => {
   const { user } = useUser()
@@ -95,7 +96,7 @@ const FreelancerProfile = ({ user }) => {
       const { data } = await axios({
         method: 'POST',
         url: `${import.meta.env.VITE_SERVER_URL}/freelancer/add-skill`,
-        data: { id: user._id, skill: newSkill },
+        data: { skill: newSkill },
         withCredentials: true,
       })
 
@@ -124,6 +125,25 @@ const FreelancerProfile = ({ user }) => {
     }
   }
 
+  const deleteSkill = async (i) => {
+    setLoading(true)
+    try {
+      const { data } = await axios({
+        method: 'POST',
+        url: `${import.meta.env.VITE_SERVER_URL}/freelancer/delete-skill`,
+        data: { skills: skills.filter((s, idx) => idx !== i) },
+        withCredentials: true,
+      })
+
+      if (data.success) {
+        setSkills(data.skills)
+        setLoading(false)
+      }
+    } catch (e) {
+      setLoading(false)
+    }
+  }
+
   useEffect(() => {
     getEarnings()
   }, [])
@@ -142,7 +162,16 @@ const FreelancerProfile = ({ user }) => {
         <h4>Skills:</h4>
         <ul>
           {skills.map((skill, index) => (
-            <li key={index}>{skill}</li>
+            <li key={index}>
+              {skill}{' '}
+              <img
+                src={DeleteIcon}
+                alt='delete'
+                onClick={() => {
+                  deleteSkill(index)
+                }}
+              />
+            </li>
           ))}
         </ul>
         <form className='add-skill'>

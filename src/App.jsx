@@ -22,7 +22,8 @@ import Register from './pages/auth/Register'
 
 import './styles/styles.scss'
 import Profile from './pages/Profile'
-import FreelancerProfile from './pages/client/FreelancerProfile'
+import FreelancerProfile from './pages/FreelancerProfile'
+import ClientProfile from './pages/admin/ClientProfile'
 
 function App() {
   return (
@@ -39,6 +40,8 @@ function App() {
                 <Route path='/profile' element={<Profile />} />
                 <Route path='/a' element={<AdminRoute />}>
                   <Route path='/a' element={<Admin />} />
+                  <Route path='/a/freelancer' element={<FreelancerProfile />} />
+                  <Route path='/a/client' element={<ClientProfile />} />
                 </Route>
                 <Route path='/c' element={<ClientRoute />}>
                   <Route path='/c' element={<Client />} />

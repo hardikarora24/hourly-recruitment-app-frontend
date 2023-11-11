@@ -4,7 +4,7 @@ import { PROJECT_STATUS } from '../../utils/Constants'
 
 const ProjectDetails = ({ project }) => {
   return (
-    <div className='project'>
+    <li className='project'>
       <div className='title'>Title: {project.title}</div>
       <div className='description'>Description: {project.description}</div>
       <div className='technologies'>
@@ -27,8 +27,8 @@ const ProjectDetails = ({ project }) => {
             hrs
           </div>
         </>
-      )}{' '}
-    </div>
+      )}
+    </li>
   )
 }
 

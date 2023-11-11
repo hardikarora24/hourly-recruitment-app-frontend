@@ -1,14 +1,5 @@
-export default function Admin() {
-  return (
-    <div>
-      Admin{' '}
-      <button
-        onClick={() => {
-          logout()
-        }}
-      >
-        logout
-      </button>
-    </div>
-  )
+import Home from '../admin/Home'
+
+export default function Client() {
+  return <Home />
 }
