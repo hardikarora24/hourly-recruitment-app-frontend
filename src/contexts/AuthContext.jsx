@@ -10,7 +10,7 @@ export const useAuth = () => {
 }
 
 export const AuthProvider = ({ children }) => {
-  const { setUser, user, setLoading } = useUser()
+  const { setUser, user, setLoading, logoutUser } = useUser()
 
   useEffect(() => {
     defaultLogin()
@@ -64,7 +64,7 @@ export const AuthProvider = ({ children }) => {
   }
 
   const logout = async () => {
-    setUser(null)
+    logoutUser()
 
     try {
       const response = await axios({
@@ -76,6 +76,7 @@ export const AuthProvider = ({ children }) => {
       const { data } = response
       if (data.success) {
         console.log('User logged out successfully')
+        navigate('/login')
       } else {
         console.error(data.message)
       }
@@ -91,7 +92,9 @@ export const AuthProvider = ({ children }) => {
     try {
       const { data } = await axios({
         method: 'GET',
-        url: `${import.meta.env.VITE_SERVER_URL}/user`,
+        url: `${import.meta.env.VITE_SERVER_URL}/user?id=${localStorage.getItem(
+          'user_id'
+        )}`,
         withCredentials: true,
       })
 
