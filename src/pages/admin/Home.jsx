@@ -27,7 +27,7 @@ const Home = () => {
 
       const { data: projectsData } = await axios({
         method: 'GET',
-        url: `${import.meta.env.VITE_SERVER_URL}/admin/projects?id=${user._id}`,
+        url: `${import.meta.env.VITE_SERVER_URL}/admin/projects`,
         withCredentials: true,
       })
 
