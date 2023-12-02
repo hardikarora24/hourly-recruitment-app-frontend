@@ -18,7 +18,7 @@ const Project = ({ project, setShowModal = (b) => {}, bidModal = false }) => {
         method: 'GET',
         url: `${import.meta.env.VITE_SERVER_URL}/freelancer/bids?projectId=${
           project._id
-        }`,
+        }&id=${user._id}`,
         withCredentials: true,
       })
 
@@ -155,7 +155,7 @@ const BidForm = ({ projectId, clientId, setShowModal, getBids }) => {
 
     const { data } = await axios({
       method: 'POST',
-      url: `${import.meta.env.VITE_SERVER_URL}/freelancer/bid`,
+      url: `${import.meta.env.VITE_SERVER_URL}/freelancer/bid?id=${user._id}`,
       data: { projectId, clientId, rate },
       withCredentials: true,
     })

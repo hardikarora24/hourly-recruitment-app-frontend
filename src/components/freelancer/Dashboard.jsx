@@ -20,7 +20,9 @@ const Dashboard = () => {
     try {
       const { data } = await axios({
         method: 'GET',
-        url: `${import.meta.env.VITE_SERVER_URL}/freelancer/projects`,
+        url: `${import.meta.env.VITE_SERVER_URL}/freelancer/projects?id=${
+          user._id
+        }`,
         withCredentials: true,
       })
 
@@ -80,6 +82,7 @@ const Dashboard = () => {
                           setShowModal={setSubmitModal}
                           projectId={p._id}
                           clientId={p.clientId}
+                          id={user._id}
                         />
                       </Modal>
                       <Project project={p} setShowModal={setSubmitModal} />
@@ -108,7 +111,7 @@ const Dashboard = () => {
   )
 }
 
-const SubmitForm = ({ setShowModal, projectId, clientId }) => {
+const SubmitForm = ({ setShowModal, projectId, clientId, id }) => {
   const [error, setError] = useState('')
   const [form, setForm] = useState({
     sourceCodeUrl: '',
@@ -126,7 +129,7 @@ const SubmitForm = ({ setShowModal, projectId, clientId }) => {
     try {
       const { data } = await axios({
         method: 'POST',
-        url: `${import.meta.env.VITE_SERVER_URL}/freelancer/submit`,
+        url: `${import.meta.env.VITE_SERVER_URL}/freelancer?id=${id}`,
         data: {
           submission: { ...form, projectId },
           clientId,

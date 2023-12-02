@@ -30,7 +30,9 @@ const ClientProfile = ({ user }) => {
     try {
       const { data } = await axios({
         method: 'GET',
-        url: `${import.meta.env.VITE_SERVER_URL}/client/projects`,
+        url: `${import.meta.env.VITE_SERVER_URL}/client/projects?id=${
+          user._id
+        }`,
         withCredentials: true,
       })
 
@@ -96,7 +98,7 @@ const FreelancerProfile = ({ user }) => {
       const { data } = await axios({
         method: 'POST',
         url: `${import.meta.env.VITE_SERVER_URL}/freelancer/add-skill`,
-        data: { skill: newSkill },
+        data: { skill: newSkill, id: user._id },
         withCredentials: true,
       })
 
@@ -112,7 +114,9 @@ const FreelancerProfile = ({ user }) => {
     try {
       const { data } = await axios({
         method: 'GET',
-        url: `${import.meta.env.VITE_SERVER_URL}/freelancer/earnings`,
+        url: `${import.meta.env.VITE_SERVER_URL}/freelancer/earnings?id=${
+          user._id
+        }`,
         withCredentials: true,
       })
 
@@ -131,7 +135,7 @@ const FreelancerProfile = ({ user }) => {
       const { data } = await axios({
         method: 'POST',
         url: `${import.meta.env.VITE_SERVER_URL}/freelancer/delete-skill`,
-        data: { skills: skills.filter((s, idx) => idx !== i) },
+        data: { skills: skills.filter((s, idx) => idx !== i), id: user._id },
         withCredentials: true,
       })
 

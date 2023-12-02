@@ -25,7 +25,9 @@ const Projects = () => {
     try {
       const { data } = await axios({
         method: 'GET',
-        url: `${import.meta.env.VITE_SERVER_URL}/client/projects`,
+        url: `${import.meta.env.VITE_SERVER_URL}/client/projects?id=${
+          user._id
+        }`,
         withCredentials: true,
       })
 
@@ -44,7 +46,9 @@ const Projects = () => {
     try {
       const { data } = await axios({
         method: 'GET',
-        url: `${import.meta.env.VITE_SERVER_URL}/client/submissions`,
+        url: `${import.meta.env.VITE_SERVER_URL}/client/submissions?id=${
+          user._id
+        }`,
         withCredentials: true,
       })
 
@@ -67,7 +71,11 @@ const Projects = () => {
   return (
     <>
       <Modal showModal={showModal} setShowModal={setShowModal}>
-        <AddProjectForm setShowModal={setShowModal} getProjects={getProjects} />
+        <AddProjectForm
+          setShowModal={setShowModal}
+          getProjects={getProjects}
+          id={user._id}
+        />
       </Modal>
       {loading ? (
         <Loading />
@@ -158,7 +166,7 @@ const Projects = () => {
   )
 }
 
-const AddProjectForm = ({ setShowModal, getProjects }) => {
+const AddProjectForm = ({ setShowModal, getProjects, id }) => {
   const [form, setForm] = useState({
     title: '',
     description: '',
@@ -186,7 +194,7 @@ const AddProjectForm = ({ setShowModal, getProjects }) => {
       const { data } = await axios({
         method: 'POST',
         url: `${import.meta.env.VITE_SERVER_URL}/client/add-project`,
-        data: { project: { ...form } },
+        data: { project: { ...form }, id },
         withCredentials: true,
       })
 
