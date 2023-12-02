@@ -180,6 +180,7 @@ const Register = () => {
             name='last_name'
             id='last_name'
             onChange={handleChange}
+            value={form.last_name}
           />
         </div>
         <div className='group'>
@@ -190,7 +191,7 @@ const Register = () => {
             name='username'
             id='username'
             onChange={handleChange}
-            value={form.last_name}
+            value={form.username}
           />
         </div>
         <div className='group'>
