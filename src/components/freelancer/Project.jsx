@@ -64,6 +64,7 @@ const Project = ({ project, setShowModal = (b) => {}, bidModal = false }) => {
           projectId={project._id}
           clientId={project.clientId}
           getBids={getBids}
+          id={user._id}
         />
       </Modal>
       <div className='title'>Title: {project.title}</div>
@@ -147,7 +148,7 @@ const Project = ({ project, setShowModal = (b) => {}, bidModal = false }) => {
   )
 }
 
-const BidForm = ({ projectId, clientId, setShowModal, getBids }) => {
+const BidForm = ({ projectId, clientId, setShowModal, getBids, id }) => {
   const [rate, setRate] = useState()
 
   const handleSubmit = async (e) => {
@@ -155,7 +156,7 @@ const BidForm = ({ projectId, clientId, setShowModal, getBids }) => {
 
     const { data } = await axios({
       method: 'POST',
-      url: `${import.meta.env.VITE_SERVER_URL}/freelancer/bid?id=${user._id}`,
+      url: `${import.meta.env.VITE_SERVER_URL}/freelancer/bid?id=${id}`,
       data: { projectId, clientId, rate },
       withCredentials: true,
     })
