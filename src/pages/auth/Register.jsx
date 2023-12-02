@@ -156,12 +156,22 @@ const Register = () => {
       <h1>Hourly Recruitment</h1>
       <form className='register-form'>
         <div className='group'>
+          <label htmlFor='type'>Type</label>
+          <select id='type' name='type' onChange={handleChange}>
+            <option value={USER_TYPES.client}>{USER_TYPES.client}</option>
+            <option value={USER_TYPES.freelancer}>
+              {USER_TYPES.freelancer}
+            </option>
+          </select>
+        </div>
+        <div className='group'>
           {error.name}
           <label htmlFor='name'>First Name: </label>
           <input
             type='text'
             name='first_name'
             id='first_name'
+            value={form.first_name}
             onChange={handleChange}
           />
           <label htmlFor='name'> Last Name: </label>
@@ -180,6 +190,7 @@ const Register = () => {
             name='username'
             id='username'
             onChange={handleChange}
+            value={form.last_name}
           />
         </div>
         <div className='group'>
@@ -190,6 +201,7 @@ const Register = () => {
             id='password'
             name='password'
             onChange={handleChange}
+            value={form.password}
           />
         </div>
         <div className='group'>
@@ -200,6 +212,7 @@ const Register = () => {
             name='confirmPassword'
             id='confirmPassword'
             onChange={handleChange}
+            value={form.confirmPassword}
           />
         </div>
         {form.type === USER_TYPES.freelancer && (
@@ -225,15 +238,6 @@ const Register = () => {
             </button>
           </div>
         )}
-        <div className='group'>
-          <label htmlFor='type'>Type</label>
-          <select id='type' name='type' onChange={handleChange}>
-            <option value={USER_TYPES.client}>{USER_TYPES.client}</option>
-            <option value={USER_TYPES.freelancer}>
-              {USER_TYPES.freelancer}
-            </option>
-          </select>
-        </div>
         <button onClick={handleSubmit}>Register</button>
         <div className='prompt'>
           Already have an account? <Link to='/login'>Login</Link>
