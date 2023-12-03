@@ -129,11 +129,8 @@ const SubmitForm = ({ setShowModal, projectId, clientId, id }) => {
     try {
       const { data } = await axios({
         method: 'POST',
-        url: `${import.meta.env.VITE_SERVER_URL}/freelancer?id=${id}`,
-        data: {
-          submission: { ...form, projectId },
-          clientId,
-        },
+        url: `${import.meta.env.VITE_SERVER_URL}/freelancer/submit`,
+        data: { id, submission: { ...form, projectId }, clientId },
         withCredentials: true,
       })
 
