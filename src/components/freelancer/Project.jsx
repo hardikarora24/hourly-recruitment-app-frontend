@@ -54,8 +54,8 @@ const Project = ({ project, setShowModal = (b) => {}, bidModal = false }) => {
   }
 
   useEffect(() => {
-    getBids()
     getSubmission()
+    getBids()
   }, [])
 
   const deleteBid = async (id) => {
