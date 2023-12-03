@@ -124,7 +124,8 @@ const PostedProject = ({ project, getProjects }) => {
 const EditModal = ({ p, setShowModal }) => {
   const [project, setProject] = useState(p)
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault()
     try {
       const response = await axios({
         method: 'POST',
@@ -212,7 +213,13 @@ const EditModal = ({ p, setShowModal }) => {
             onChange={handleChange}
           />
         </div>
-        <button onClick={handleSubmit}>Save</button>
+        <button
+          onClick={(e) => {
+            handleSubmit(e)
+          }}
+        >
+          Save
+        </button>
       </form>
     </>
   )
