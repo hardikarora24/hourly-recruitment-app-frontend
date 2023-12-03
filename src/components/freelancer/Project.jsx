@@ -47,12 +47,6 @@ const Project = ({ project, setShowModal = (b) => {}, bidModal = false }) => {
       })
 
       if (data.success) {
-        console.log(
-          businessHours(
-            new Date(project.accepted_bid.accepted_at),
-            new Date(data.submission.created_at)
-          )
-        )
         setSubmission(data.submission)
         setLoading(false)
       } else {
@@ -113,11 +107,11 @@ const Project = ({ project, setShowModal = (b) => {}, bidModal = false }) => {
           <div className='rate'>Rate: {project.accepted_bid.hourly_rate}</div>
           <div className='time'>
             Time Taken:{' '}
-            {/* {!loading &&
+            {!loading &&
               businessHours(
                 new Date(project.accepted_bid.accepted_at),
                 new Date(submission.created_at)
-              )}{' '} */}
+              )}{' '}
             hrs
           </div>
         </>
