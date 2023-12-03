@@ -110,7 +110,7 @@ const Project = ({ project, setShowModal = (b) => {}, bidModal = false }) => {
             {!loading &&
               businessHours(
                 new Date(project.accepted_bid.accepted_at),
-                new Date(submission.created_at)
+                new Date(submission?.created_at)
               )}{' '}
             hrs
           </div>
