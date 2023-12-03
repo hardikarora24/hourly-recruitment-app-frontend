@@ -18,7 +18,7 @@ const CompletedProject = ({ project, submission, getProjects }) => {
           getProjects={getProjects}
         />
       </Modal>
-      <ProjectDetails project={project} />
+      <ProjectDetails project={project} submission={submission} />
       {project.status === PROJECT_STATUS.completed && (
         <button
           onClick={() => {
