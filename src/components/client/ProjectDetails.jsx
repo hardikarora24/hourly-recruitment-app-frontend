@@ -1,7 +1,7 @@
 import React from 'react'
 import businessHours from '../../utils/businessHours'
 import { PROJECT_STATUS } from '../../utils/Constants'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 const ProjectDetails = ({ project }) => {
   const [submission, setSubmission] = useState()
