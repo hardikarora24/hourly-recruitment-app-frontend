@@ -9,6 +9,8 @@ import Modal from '../Modal'
 const Project = ({ project, setShowModal = (b) => {}, bidModal = false }) => {
   const [loading, setLoading] = useState(false)
   const [bids, setBids] = useState([])
+  const [submission, setSubmission] = useState()
+  const [error, setError] = useState('')
 
   const { user } = useUser()
 
@@ -33,8 +35,27 @@ const Project = ({ project, setShowModal = (b) => {}, bidModal = false }) => {
     }
   }
 
+  const getSubmission = async () => {
+    try {
+      const { data } = await axios({
+        method: 'GET',
+        url: `${
+          import.meta.env.VITE_SERVER_URL
+        }/freelancer/submission?id=${id}&projectId=${project._id}`,
+        withCredentials: true,
+      })
+
+      if (data.success) {
+        setSubmission(data.submission)
+      }
+    } catch (e) {
+      setError('Could not submit')
+    }
+  }
+
   useEffect(() => {
     getBids()
+    getSubmission()
   }, [])
 
   const deleteBid = async (id) => {
@@ -84,7 +105,7 @@ const Project = ({ project, setShowModal = (b) => {}, bidModal = false }) => {
             Time Taken:{' '}
             {businessHours(
               new Date(project?.accepted_bid?.accepted_at),
-              new Date(project?.approved_submission?.accepted_at)
+              new Date(submission?.created_at)
             )}{' '}
             hrs
           </div>
