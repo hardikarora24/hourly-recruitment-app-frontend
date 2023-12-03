@@ -1,8 +1,34 @@
 import React from 'react'
 import businessHours from '../../utils/businessHours'
 import { PROJECT_STATUS } from '../../utils/Constants'
+import { useEffect } from 'react'
 
 const ProjectDetails = ({ project }) => {
+  const [submission, setSubmission] = useState()
+  const [error, setError] = useState('')
+
+  const getSubmission = async () => {
+    try {
+      const { data } = await axios({
+        method: 'GET',
+        url: `${
+          import.meta.env.VITE_SERVER_URL
+        }/freelancer/submission?id=${id}&projectId=${project._id}`,
+        withCredentials: true,
+      })
+
+      if (data.success) {
+        setSubmission(data.submission)
+      }
+    } catch (e) {
+      setError('Could not submit')
+    }
+  }
+
+  useEffect(() => {
+    getSubmission()
+  }, [])
+
   return (
     <li className='project'>
       <div className='title'>Title: {project.title}</div>
@@ -22,7 +48,7 @@ const ProjectDetails = ({ project }) => {
             Time Taken:{' '}
             {businessHours(
               new Date(project?.accepted_bid?.accepted_at),
-              new Date(project?.approved_submission?.accepted_at)
+              new Date(submission?.created_at)
             )}{' '}
             hrs
           </div>
