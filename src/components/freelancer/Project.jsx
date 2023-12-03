@@ -41,15 +41,18 @@ const Project = ({ project, setShowModal = (b) => {}, bidModal = false }) => {
         method: 'GET',
         url: `${
           import.meta.env.VITE_SERVER_URL
-        }/freelancer/submission?id=${id}&projectId=${project._id}`,
+        }/freelancer/submission?projectId=${project._id}&id=${user._id}`,
         withCredentials: true,
       })
 
       if (data.success) {
         setSubmission(data.submission)
+        setLoading(false)
+      } else {
+        throw new Error(data.message)
       }
     } catch (e) {
-      setError('Could not submit')
+      setLoading(false)
     }
   }
 
